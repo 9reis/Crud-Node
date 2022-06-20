@@ -74,7 +74,7 @@ router.patch('/:id', async (req,res) =>{
         salary,
         approved,
     }
-    
+
     try{ 
         const updatedPerson = await Person.updateOne({_id: id}, person)
 
@@ -88,6 +88,25 @@ router.patch('/:id', async (req,res) =>{
         res.status(500).json({Error:error})
     }
     
+})
+
+////////// DELETE \\\\\\\\\\
+router.delete('/:id' , async (req,res) => {
+
+    const id = req.params.id
+
+    const person = await Person.findOne({_id: id})
+
+    if(!person){
+        res.status(422).json({msg:"O usuário não foi encontrado"})
+    }
+
+    try{
+        await Person.deleteOne({_id: id})
+        res.status(200).json({msg: "Usuário removido com sucesso"})
+    } catch(error){
+        res.status(500).json({Error: error})
+    }
 })
 
 
